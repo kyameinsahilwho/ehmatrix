@@ -607,22 +607,9 @@ body {
 
 .editable-task-text:hover {
   text-decoration: underline;
-  text-decoration-style: dashed;
-  text-decoration-color: var(--color-purple);
+  text-decoration-style: dotted;
+  text-decoration-color: var(--text-muted);
   color: var(--text-primary);
-}
-
-.task-edit-icon {
-  opacity: 0;
-  margin-left: 0.35rem;
-  color: var(--text-muted);
-  transition: opacity 0.15s ease, color 0.15s ease;
-  flex-shrink: 0;
-}
-
-.editable-task-text:hover .task-edit-icon {
-  opacity: 1;
-  color: var(--color-purple);
 }
 
 .task-edit-input {

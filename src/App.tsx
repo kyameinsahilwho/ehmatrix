@@ -12,8 +12,7 @@ import {
   ArrowRight,
   Info,
   Sun,
-  Moon,
-  Pencil
+  Moon
 } from 'lucide-react';
 import {
   useTasks,
@@ -52,6 +51,7 @@ function TaskItem({
 }: TaskItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task.text);
+  const [isTextHovered, setIsTextHovered] = useState(false);
   const editInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ function TaskItem({
 
   return (
     <div
-      draggable={!isEditing}
+      draggable={!isEditing && !isTextHovered}
       onDragStart={(e) => handleDragStart(e, task.id)}
       onDragEnd={handleDragEnd}
       className={`task-item ${draggedTaskId === task.id ? 'dragging' : ''} ${isEditing ? 'editing' : ''}`}
@@ -114,11 +114,12 @@ function TaskItem({
               setIsEditing(true);
               setEditText(task.text);
             }}
+            onMouseEnter={() => setIsTextHovered(true)}
+            onMouseLeave={() => setIsTextHovered(false)}
             className={`task-text editable-task-text ${task.completed ? 'completed' : ''}`}
             title="Click to edit task name"
           >
             {task.text}
-            <Pencil className="task-edit-icon w-3 h-3" />
           </span>
         )}
       </div>
