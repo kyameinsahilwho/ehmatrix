@@ -20,5 +20,5 @@
   <rect x="244" y="244" width="24" height="24" fill="#ffffff" stroke="#af52de" stroke-width="6" />
 
   <!-- Center Text EH with dark stroke for contrast on light backgrounds -->
-  <text x="256" y="284" font-family="'JetBrains Mono', monospace, sans-serif" font-size="80" font-weight="900" fill="#ffffff" stroke="#101114" stroke-width="6" paint-order="stroke fill" text-anchor="middle" letter-spacing="2">EH</text>
+  <text x="256" y="375" font-family="'JetBrains Mono', monospace, sans-serif" font-size="340" font-weight="900" fill="#ffffff" stroke="#101114" stroke-width="20" paint-order="stroke fill" text-anchor="middle" letter-spacing="-10">EH</text>
 </svg>
