@@ -1,11 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
-  <rect width="48" height="48" fill="#18191c" />
-  <rect x="2" y="2" width="44" height="44" stroke="#8b5cf6" stroke-width="2" />
-  <line x1="24" y1="2" x2="24" y2="46" stroke="#8b5cf6" stroke-width="2" />
-  <line x1="2" y1="24" x2="46" y2="24" stroke="#8b5cf6" stroke-width="2" />
-  <circle cx="24" cy="24" r="3" fill="#ffffff" stroke="#8b5cf6" stroke-width="1.5" />
-  <rect x="4" y="4" width="18" height="18" fill="#ef4444" fill-opacity="0.35" />
-  <rect x="26" y="4" width="18" height="18" fill="#3b82f6" fill-opacity="0.35" />
-  <rect x="4" y="26" width="18" height="18" fill="#10b981" fill-opacity="0.35" />
-  <rect x="26" y="26" width="18" height="18" fill="#8b5cf6" fill-opacity="0.35" />
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <!-- Outer Border Frame -->
+  <rect x="24" y="24" width="464" height="464" stroke="#af52de" stroke-width="16" />
+  
+  <!-- Grid quadrants with high contrast bright colors -->
+  <!-- Top Left: Red Segment -->
+  <rect x="40" y="40" width="210" height="210" fill="#ff3b30" fill-opacity="0.45" />
+  <!-- Top Right: Blue Segment -->
+  <rect x="262" y="40" width="210" height="210" fill="#007af5" fill-opacity="0.45" />
+  <!-- Bottom Left: Green Segment -->
+  <rect x="40" y="262" width="210" height="210" fill="#34c759" fill-opacity="0.45" />
+  <!-- Bottom Right: Purple Segment -->
+  <rect x="262" y="262" width="210" height="210" fill="#af52de" fill-opacity="0.45" />
+  
+  <!-- Axis Grid Lines -->
+  <line x1="256" y1="24" x2="256" y2="488" stroke="#af52de" stroke-width="12" />
+  <line x1="24" y1="256" x2="488" y2="256" stroke="#af52de" stroke-width="12" />
+  
+  <!-- Center Node Dot -->
+  <rect x="244" y="244" width="24" height="24" fill="#ffffff" stroke="#af52de" stroke-width="6" />
+
+  <!-- Center Text EM with dark stroke for contrast on light backgrounds -->
+  <text x="256" y="284" font-family="'JetBrains Mono', monospace, sans-serif" font-size="80" font-weight="900" fill="#ffffff" stroke="#101114" stroke-width="6" paint-order="stroke fill" text-anchor="middle" letter-spacing="2">EM</text>
 </svg>

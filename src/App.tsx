@@ -202,7 +202,7 @@ function MatrixAppContent() {
       <header className="app-header">
         <div className="header-logo-theme-wrapper">
           <h1 className="app-logo">
-            EISENHOWER MATRIX
+            EISENHOWER MATRIX PRO
           </h1>
           <button
             type="button"

@@ -5,32 +5,32 @@
   --font-mono: 'JetBrains Mono', monospace;
   
   /* Color Palette - Soft Slate/Grey App Background with Original Dark Panels/Boxes */
-  --bg-app: #1e1f22;
-  --bg-panel: #141417;
-  --bg-card: #1c1c21;
-  --bg-card-hover: #24242b;
-  --border-color: #2b2b33;
-  --border-focus: #8b5cf6;
+  --bg-app: #1a1b1e;
+  --bg-panel: #101114;
+  --bg-card: #17181c;
+  --bg-card-hover: #1f2026;
+  --border-color: #272830;
+  --border-focus: #af52de;
   
-  --text-primary: #f3f4f6;
-  --text-secondary: #a3a3ac;
-  --text-muted: #5e5e6a;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #475569;
 
   /* Accent Colors */
-  --color-purple: #8b5cf6;
+  --color-purple: #af52de;
   
-  /* Quadrant Colors */
-  --q-urgent-important: #ef4444;
-  --q-urgent-important-rgb: 239, 68, 68;
+  /* Quadrant Colors - Highly Vibrant & Bright */
+  --q-urgent-important: #ff3b30;
+  --q-urgent-important-rgb: 255, 59, 48;
   
-  --q-important-not-urgent: #3b82f6;
-  --q-important-not-urgent-rgb: 59, 130, 246;
+  --q-important-not-urgent: #007af5;
+  --q-important-not-urgent-rgb: 0, 122, 245;
   
-  --q-urgent-not-important: #10b981;
-  --q-urgent-not-important-rgb: 16, 185, 129;
+  --q-urgent-not-important: #34c759;
+  --q-urgent-not-important-rgb: 52, 199, 89;
   
-  --q-not-urgent-not-important: #8b5cf6;
-  --q-not-urgent-not-important-rgb: 139, 92, 246;
+  --q-not-urgent-not-important: #af52de;
+  --q-not-urgent-not-important-rgb: 175, 82, 222;
 
   /* Zero rounding for sharp layout */
   --radius-lg: 0px;
@@ -38,20 +38,32 @@
   --radius-sm: 0px;
 }
 
-/* Light Theme Variables */
+/* Light Theme Variables - Highly Contrasting Crisp White & Bright Accents */
 .light-theme {
-  --bg-app: #f1f2f5;
-  --bg-panel: #ffffff;
-  --bg-card: #f9fafb;
-  --bg-card-hover: #e5e7eb;
+  --bg-app: #ffffff;
+  --bg-panel: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-card-hover: #e2e8f0;
   --border-color: #cbd5e1;
-  --border-focus: #7c3aed;
+  --border-focus: #af52de;
   
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-primary: #000000;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
   
-  --color-purple: #7c3aed;
+  --color-purple: #af52de;
+
+  --q-urgent-important: #d92d20;
+  --q-urgent-important-rgb: 217, 45, 32;
+  
+  --q-important-not-urgent: #004ee4;
+  --q-important-not-urgent-rgb: 0, 78, 228;
+  
+  --q-urgent-not-important: #0f973d;
+  --q-urgent-not-important-rgb: 15, 151, 61;
+  
+  --q-not-urgent-not-important: #6941c6;
+  --q-not-urgent-not-important-rgb: 105, 65, 198;
 }
 
 * {
