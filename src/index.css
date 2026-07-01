@@ -1,0 +1,635 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Color Palette - Soft Slate/Grey App Background with Original Dark Panels/Boxes */
+  --bg-app: #1e1f22;
+  --bg-panel: #141417;
+  --bg-card: #1c1c21;
+  --bg-card-hover: #24242b;
+  --border-color: #2b2b33;
+  --border-focus: #8b5cf6;
+  
+  --text-primary: #f3f4f6;
+  --text-secondary: #a3a3ac;
+  --text-muted: #5e5e6a;
+
+  /* Accent Colors */
+  --color-purple: #8b5cf6;
+  
+  /* Quadrant Colors */
+  --q-urgent-important: #ef4444;
+  --q-urgent-important-rgb: 239, 68, 68;
+  
+  --q-important-not-urgent: #3b82f6;
+  --q-important-not-urgent-rgb: 59, 130, 246;
+  
+  --q-urgent-not-important: #10b981;
+  --q-urgent-not-important-rgb: 16, 185, 129;
+  
+  --q-not-urgent-not-important: #8b5cf6;
+  --q-not-urgent-not-important-rgb: 139, 92, 246;
+
+  /* Zero rounding for sharp layout */
+  --radius-lg: 0px;
+  --radius-md: 0px;
+  --radius-sm: 0px;
+}
+
+/* Light Theme Variables */
+.light-theme {
+  --bg-app: #f1f2f5;
+  --bg-panel: #ffffff;
+  --bg-card: #f9fafb;
+  --bg-card-hover: #e5e7eb;
+  --border-color: #cbd5e1;
+  --border-focus: #7c3aed;
+  
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  --color-purple: #7c3aed;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 !important; /* Forces sharp corners everywhere */
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  height: 100vh;
+  max-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Custom Scrollbar - Compact & Square */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+::-webkit-scrollbar-thumb {
+  background: #2b2b33;
+}
+.light-theme ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-purple);
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.app-container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+/* Compact Header */
+.app-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.header-logo-theme-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.theme-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--color-purple);
+  background: rgba(139, 92, 246, 0.05);
+}
+
+.app-logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+.app-subtitle {
+  display: none; /* Hide subtitle to preserve vertical space */
+}
+
+/* Compact Input Form */
+.input-container {
+  flex-grow: 1;
+  max-width: 550px;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--border-focus);
+}
+
+.task-input {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.task-input::placeholder {
+  color: var(--text-muted);
+}
+
+.add-button {
+  background: var(--color-purple);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.85rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.add-button:hover {
+  background: #7c3aed;
+}
+
+/* Workspace Layout - Compact and Grid-aligned */
+.matrix-workspace {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1rem;
+  align-items: stretch;
+  flex-grow: 1;
+  min-height: 0;
+  height: calc(100% - 60px);
+}
+
+@media (max-width: 1024px) {
+  .matrix-workspace {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow-y: auto;
+  }
+}
+
+/* Sidebar / Pool Panel */
+.pool-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+  max-height: none;
+  min-height: 0;
+}
+
+@media (max-width: 1024px) {
+  .pool-panel {
+    max-height: 250px;
+    min-height: auto;
+  }
+}
+
+/* Shortcut Badge */
+.shortcut-badge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  padding: 0.15rem 0.35rem;
+  margin-right: 0.5rem;
+  user-select: none;
+}
+
+.light-theme .shortcut-badge {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.pool-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.pool-count {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.05rem 0.4rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  font-family: var(--font-mono);
+}
+
+.task-list-scrollable {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-right: 0.15rem;
+}
+
+/* Graph Container */
+.matrix-graph-wrapper {
+  position: relative;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sharp grid graph lines */
+.graph-grid-mesh {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-size: 20px 20px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+}
+
+.graph-axis-x {
+  position: absolute;
+  left: 1.5rem;
+  right: 1.5rem;
+  top: 50%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.graph-axis-y {
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: 50%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.graph-axis-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: #fff;
+  border: 1px solid var(--color-purple);
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Light Theme Graph Overrides */
+.light-theme .graph-grid-mesh {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+}
+.light-theme .graph-axis-x,
+.light-theme .graph-axis-y {
+  background: rgba(0, 0, 0, 0.15);
+}
+.light-theme .graph-axis-center {
+  background: #fff;
+  border-color: var(--color-purple);
+}
+
+.graph-label {
+  position: absolute;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  background: var(--bg-app);
+  padding: 0.15rem 0.5rem;
+  pointer-events: none;
+  user-select: none;
+  z-index: 10;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.graph-label-top {
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.graph-label-bottom {
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+
+.graph-label-left {
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+.graph-label-right {
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%) rotate(90deg);
+}
+
+/* Eisenhower Matrix Grid - 2x2 with thin gap */
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1rem;
+  min-height: calc(100vh - 120px);
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .matrix-graph-wrapper {
+    padding: 0.5rem;
+  }
+  .graph-axis-x,
+  .graph-axis-y,
+  .graph-axis-center,
+  .graph-label,
+  .graph-grid-mesh {
+    display: none;
+  }
+  .matrix-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    min-height: auto;
+    gap: 0.75rem;
+  }
+}
+
+/* Quadrant Panels - Compact, solid backgrounds, sharp colored border tops */
+.matrix-quadrant {
+  background: linear-gradient(rgba(var(--q-color-rgb), 0.05), rgba(var(--q-color-rgb), 0.05)), var(--bg-card);
+  border: 1px solid rgba(var(--q-color-rgb), 0.18);
+  border-top: 3.5px solid var(--q-color);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.matrix-quadrant:hover {
+  background: linear-gradient(rgba(var(--q-color-rgb), 0.09), rgba(var(--q-color-rgb), 0.09)), var(--bg-card);
+  border-color: rgba(var(--q-color-rgb), 0.4);
+}
+
+.matrix-quadrant.drag-over {
+  background: linear-gradient(rgba(var(--q-color-rgb), 0.14), rgba(var(--q-color-rgb), 0.14)), var(--bg-card);
+  border-color: var(--q-color);
+}
+
+/* Quadrant Header Info */
+.quadrant-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.35rem;
+}
+
+.quadrant-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quadrant-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--q-color);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+}
+
+.quadrant-title svg {
+  width: 14px;
+  height: 14px;
+}
+
+.quadrant-subtitle {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Compact Task Items */
+.task-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0.4rem 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  cursor: grab;
+  user-select: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.task-item:hover {
+  background: var(--bg-card-hover);
+  border-color: #3b3b44;
+}
+
+.task-item:active {
+  cursor: grabbing;
+}
+
+.task-item.dragging {
+  opacity: 0.3;
+  border-style: dashed;
+}
+
+.task-content-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-grow: 1;
+}
+
+/* Checkbox Style - Sharp, square */
+.task-checkbox-btn {
+  background: transparent;
+  border: 1px solid var(--text-muted);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: all 0.1s ease;
+  flex-shrink: 0;
+}
+
+.task-checkbox-btn:hover {
+  border-color: var(--color-purple);
+}
+
+.task-checkbox-btn.completed {
+  background: var(--color-purple);
+  border-color: var(--color-purple);
+  color: #fff;
+}
+
+.task-checkbox-btn.completed svg {
+  width: 11px;
+  height: 11px;
+}
+
+.task-text {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.task-text.completed {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Delete Action Button */
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.1s ease, color 0.1s ease;
+}
+
+.task-item:hover .delete-btn {
+  opacity: 1;
+}
+
+.delete-btn:hover {
+  color: #ef4444;
+}
+
+.delete-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* Empty State Message - Very Compact */
+.empty-state {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 0.75rem;
+  flex-grow: 1;
+}
+
+.empty-state-icon {
+  opacity: 0.3;
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.empty-state-text {
+  font-size: 0.75rem;
+}
