@@ -54,7 +54,7 @@ export const useUpdateTask = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (payload: { id: string; completed?: boolean; quadrant?: QuadrantType }) => {
+    mutationFn: async (payload: { id: string; completed?: boolean; quadrant?: QuadrantType; text?: string }) => {
       const currentTasks = await fetchTasksFromStorage();
       const updatedTasks = currentTasks.map((t) => {
         if (t.id === payload.id) {
@@ -62,6 +62,7 @@ export const useUpdateTask = () => {
             ...t,
             ...(payload.completed !== undefined ? { completed: payload.completed } : {}),
             ...(payload.quadrant !== undefined ? { quadrant: payload.quadrant } : {}),
+            ...(payload.text !== undefined ? { text: payload.text } : {}),
           };
         }
         return t;

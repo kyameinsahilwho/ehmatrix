@@ -12,7 +12,8 @@ import {
   ArrowRight,
   Info,
   Sun,
-  Moon
+  Moon,
+  Pencil
 } from 'lucide-react';
 import {
   useTasks,
@@ -31,6 +32,107 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+interface TaskItemProps {
+  task: Task;
+  draggedTaskId: string | null;
+  handleDragStart: (e: React.DragEvent, id: string) => void;
+  handleDragEnd: () => void;
+  updateTaskMutation: any;
+  deleteTaskMutation: any;
+}
+
+function TaskItem({
+  task,
+  draggedTaskId,
+  handleDragStart,
+  handleDragEnd,
+  updateTaskMutation,
+  deleteTaskMutation,
+}: TaskItemProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState(task.text);
+  const editInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isEditing) {
+      editInputRef.current?.focus();
+      editInputRef.current?.select();
+    }
+  }, [isEditing]);
+
+  const handleSave = () => {
+    const trimmed = editText.trim();
+    if (trimmed && trimmed !== task.text) {
+      updateTaskMutation.mutate({ id: task.id, text: trimmed });
+    } else {
+      setEditText(task.text);
+    }
+    setIsEditing(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSave();
+    } else if (e.key === 'Escape') {
+      setEditText(task.text);
+      setIsEditing(false);
+    }
+  };
+
+  return (
+    <div
+      draggable={!isEditing}
+      onDragStart={(e) => handleDragStart(e, task.id)}
+      onDragEnd={handleDragEnd}
+      className={`task-item ${draggedTaskId === task.id ? 'dragging' : ''} ${isEditing ? 'editing' : ''}`}
+    >
+      <div className="task-content-left">
+        <button
+          type="button"
+          onClick={() =>
+            updateTaskMutation.mutate({ id: task.id, completed: !task.completed })
+          }
+          className={`task-checkbox-btn ${task.completed ? 'completed' : ''}`}
+          aria-label={task.completed ? 'Mark task as incomplete' : 'Mark task as complete'}
+        >
+          {task.completed && <Check className="w-3.5 h-3.5" strokeWidth={3} />}
+        </button>
+        {isEditing ? (
+          <input
+            ref={editInputRef}
+            type="text"
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            onBlur={handleSave}
+            onKeyDown={handleKeyDown}
+            className="task-edit-input"
+          />
+        ) : (
+          <span
+            onClick={() => {
+              setIsEditing(true);
+              setEditText(task.text);
+            }}
+            className={`task-text editable-task-text ${task.completed ? 'completed' : ''}`}
+            title="Click to edit task name"
+          >
+            {task.text}
+            <Pencil className="task-edit-icon w-3 h-3" />
+          </span>
+        )}
+      </div>
+      <button
+        type="button"
+        onClick={() => deleteTaskMutation.mutate(task.id)}
+        className="delete-btn"
+        aria-label="Delete task"
+      >
+        <Trash2 className="w-4 h-4" />
+      </button>
+    </div>
+  );
+}
 
 function MatrixAppContent() {
   const [taskText, setTaskText] = useState('');
@@ -163,37 +265,15 @@ function MatrixAppContent() {
   ];
 
   const renderTask = (task: Task) => (
-    <div
+    <TaskItem
       key={task.id}
-      draggable
-      onDragStart={(e) => handleDragStart(e, task.id)}
-      onDragEnd={handleDragEnd}
-      className={`task-item ${draggedTaskId === task.id ? 'dragging' : ''}`}
-    >
-      <div className="task-content-left">
-        <button
-          type="button"
-          onClick={() =>
-            updateTaskMutation.mutate({ id: task.id, completed: !task.completed })
-          }
-          className={`task-checkbox-btn ${task.completed ? 'completed' : ''}`}
-          aria-label={task.completed ? 'Mark task as incomplete' : 'Mark task as complete'}
-        >
-          {task.completed && <Check className="w-3.5 h-3.5" strokeWidth={3} />}
-        </button>
-        <span className={`task-text ${task.completed ? 'completed' : ''}`}>
-          {task.text}
-        </span>
-      </div>
-      <button
-        type="button"
-        onClick={() => deleteTaskMutation.mutate(task.id)}
-        className="delete-btn"
-        aria-label="Delete task"
-      >
-        <Trash2 className="w-4 h-4" />
-      </button>
-    </div>
+      task={task}
+      draggedTaskId={draggedTaskId}
+      handleDragStart={handleDragStart}
+      handleDragEnd={handleDragEnd}
+      updateTaskMutation={updateTaskMutation}
+      deleteTaskMutation={deleteTaskMutation}
+    />
   );
 
   return (
