@@ -12,7 +12,8 @@ import {
   ArrowRight,
   Info,
   Sun,
-  Moon
+  Moon,
+  GripVertical
 } from 'lucide-react';
 import {
   useTasks,
@@ -88,6 +89,9 @@ function TaskItem({
       className={`task-item ${draggedTaskId === task.id ? 'dragging' : ''} ${isEditing ? 'editing' : ''}`}
     >
       <div className="task-content-left">
+        <div className="drag-handle">
+          <GripVertical className="w-3.5 h-3.5" />
+        </div>
         <button
           type="button"
           onClick={() =>
@@ -279,6 +283,14 @@ function MatrixAppContent() {
 
   return (
     <div className="app-container">
+      <div className="waving-dots-container">
+        <div className="waving-dot"></div>
+        <div className="waving-dot"></div>
+        <div className="waving-dot"></div>
+        <div className="waving-dot"></div>
+        <div className="waving-dot"></div>
+        <div className="waving-dot"></div>
+      </div>
       {/* Header Area */}
       <header className="app-header">
         <div className="header-logo-theme-wrapper">
