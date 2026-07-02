@@ -137,9 +137,22 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  border-bottom: 2px solid var(--border-color);
   padding-bottom: 0.5rem;
+  background: linear-gradient(
+    to bottom,
+    rgba(26, 27, 30, 0.95) 0%,
+    rgba(26, 27, 30, 0) 100%
+  );
+  z-index: 10;
   flex-wrap: nowrap;
+}
+
+.light-theme .app-header {
+  background: linear-gradient(
+    to bottom,
+    rgba(248, 250, 252, 0.95) 0%,
+    rgba(248, 250, 252, 0) 100%
+  );
 }
 
 .header-logo-theme-wrapper {
