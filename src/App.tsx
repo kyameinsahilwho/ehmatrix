@@ -39,7 +39,7 @@ interface TaskItemProps {
   handleDragStart: (e: React.DragEvent, id: string) => void;
   handleDragEnd: () => void;
   updateTaskMutation: any;
-  deleteTaskMutation: any;
+  onRequestDelete: (task: Task) => void;
 }
 
 function TaskItem({
@@ -48,7 +48,7 @@ function TaskItem({
   handleDragStart,
   handleDragEnd,
   updateTaskMutation,
-  deleteTaskMutation,
+  onRequestDelete,
 }: TaskItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(task.text);
@@ -129,7 +129,7 @@ function TaskItem({
       </div>
       <button
         type="button"
-        onClick={() => deleteTaskMutation.mutate(task.id)}
+        onClick={() => onRequestDelete(task)}
         className="delete-btn"
         aria-label="Delete task"
       >
@@ -143,6 +143,7 @@ function MatrixAppContent() {
   const [taskText, setTaskText] = useState('');
   const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null);
   const [activeDragOverQuadrant, setActiveDragOverQuadrant] = useState<string | null>(null);
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
   
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const saved = localStorage.getItem('theme');
@@ -277,7 +278,7 @@ function MatrixAppContent() {
       handleDragStart={handleDragStart}
       handleDragEnd={handleDragEnd}
       updateTaskMutation={updateTaskMutation}
-      deleteTaskMutation={deleteTaskMutation}
+      onRequestDelete={(t) => setTaskToDelete(t)}
     />
   );
 
@@ -421,6 +422,37 @@ function MatrixAppContent() {
           </section>
         </div>
       </main>
+
+      {/* Confirmation Modal */}
+      {taskToDelete && (
+        <div className="modal-overlay" onClick={() => setTaskToDelete(null)}>
+          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+            <h3 className="modal-title">Delete Task</h3>
+            <p className="modal-message">
+              Are you sure you want to delete <strong>"{taskToDelete.text}"</strong>? This action cannot be undone.
+            </p>
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="modal-btn modal-btn-cancel"
+                onClick={() => setTaskToDelete(null)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="modal-btn modal-btn-confirm"
+                onClick={() => {
+                  deleteTaskMutation.mutate(taskToDelete.id);
+                  setTaskToDelete(null);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
