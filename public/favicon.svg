@@ -2,15 +2,15 @@
   <!-- Outer Border Frame -->
   <rect x="24" y="24" width="464" height="464" stroke="#af52de" stroke-width="16" />
   
-  <!-- Grid quadrants with high contrast bright colors -->
-  <!-- Top Left: Red Segment -->
-  <rect x="40" y="40" width="210" height="210" fill="#ff3b30" fill-opacity="0.45" />
-  <!-- Top Right: Blue Segment -->
-  <rect x="262" y="40" width="210" height="210" fill="#007af5" fill-opacity="0.45" />
-  <!-- Bottom Left: Green Segment -->
-  <rect x="40" y="262" width="210" height="210" fill="#34c759" fill-opacity="0.45" />
-  <!-- Bottom Right: Purple Segment -->
-  <rect x="262" y="262" width="210" height="210" fill="#af52de" fill-opacity="0.45" />
+  <!-- Grid quadrants with high contrast, super bright colors -->
+  <!-- Top Left: Bright Red Segment -->
+  <rect x="40" y="40" width="210" height="210" fill="#ff3b30" fill-opacity="0.9" />
+  <!-- Top Right: Bright Blue Segment -->
+  <rect x="262" y="40" width="210" height="210" fill="#007af5" fill-opacity="0.9" />
+  <!-- Bottom Left: Bright Green Segment -->
+  <rect x="40" y="262" width="210" height="210" fill="#34c759" fill-opacity="0.9" />
+  <!-- Bottom Right: Bright Purple Segment -->
+  <rect x="262" y="262" width="210" height="210" fill="#af52de" fill-opacity="0.9" />
   
   <!-- Axis Grid Lines -->
   <line x1="256" y1="24" x2="256" y2="488" stroke="#af52de" stroke-width="12" />
@@ -19,6 +19,6 @@
   <!-- Center Node Dot -->
   <rect x="244" y="244" width="24" height="24" fill="#ffffff" stroke="#af52de" stroke-width="6" />
 
-  <!-- Center Text EH with dark stroke for contrast on light backgrounds -->
+  <!-- Center Text EH with high-contrast text styling -->
   <text x="256" y="375" font-family="'JetBrains Mono', monospace, sans-serif" font-size="340" font-weight="900" fill="#ffffff" stroke="#101114" stroke-width="20" paint-order="stroke fill" text-anchor="middle" letter-spacing="-10">EH</text>
 </svg>
