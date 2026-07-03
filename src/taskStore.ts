@@ -60,7 +60,12 @@ export const useUpdateTask = () => {
         if (t.id === payload.id) {
           return {
             ...t,
-            ...(payload.completed !== undefined ? { completed: payload.completed } : {}),
+            ...(payload.completed !== undefined
+              ? {
+                  completed: payload.completed,
+                  completedAt: payload.completed ? Date.now() : undefined,
+                }
+              : {}),
             ...(payload.quadrant !== undefined ? { quadrant: payload.quadrant } : {}),
             ...(payload.text !== undefined ? { text: payload.text } : {}),
           };

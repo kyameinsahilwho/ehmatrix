@@ -13,8 +13,12 @@ import {
   Info,
   Sun,
   Moon,
-  GripVertical
+  GripVertical,
+  Archive,
+  RotateCcw,
+  X
 } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import {
   useTasks,
   useAddTask,
@@ -94,9 +98,17 @@ function TaskItem({
         </div>
         <button
           type="button"
-          onClick={() =>
-            updateTaskMutation.mutate({ id: task.id, completed: !task.completed })
-          }
+          onClick={() => {
+            const nextCompleted = !task.completed;
+            updateTaskMutation.mutate({ id: task.id, completed: nextCompleted });
+            if (nextCompleted) {
+              confetti({
+                particleCount: 80,
+                spread: 60,
+                origin: { y: 0.8 }
+              });
+            }
+          }}
           className={`task-checkbox-btn ${task.completed ? 'completed' : ''}`}
           aria-label={task.completed ? 'Mark task as incomplete' : 'Mark task as complete'}
         >
@@ -144,6 +156,7 @@ function MatrixAppContent() {
   const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null);
   const [activeDragOverQuadrant, setActiveDragOverQuadrant] = useState<string | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const saved = localStorage.getItem('theme');
@@ -220,12 +233,49 @@ function MatrixAppContent() {
     setActiveDragOverQuadrant(null);
   };
 
-  // Group tasks by quadrant
+  // Group tasks by quadrant (only active/uncompleted tasks)
   const getTasksByQuadrant = (quadrant: QuadrantType) => {
-    return tasks.filter((t) => t.quadrant === quadrant);
+    return tasks.filter((t) => t.quadrant === quadrant && !t.completed);
   };
 
   const poolTasks = getTasksByQuadrant('pool');
+
+  const completedTasks = tasks.filter((t) => t.completed);
+
+  const getGroupedCompletedTasks = () => {
+    const groups: { [key: string]: Task[] } = {};
+    completedTasks.forEach((task) => {
+      const dateVal = task.completedAt || task.createdAt || Date.now();
+      const dateStr = new Date(dateVal).toLocaleDateString(undefined, {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+      if (!groups[dateStr]) {
+        groups[dateStr] = [];
+      }
+      groups[dateStr].push(task);
+    });
+    return Object.keys(groups)
+      .sort((a, b) => {
+        const timeA = groups[a][0].completedAt || groups[a][0].createdAt || 0;
+        const timeB = groups[b][0].completedAt || groups[b][0].createdAt || 0;
+        return timeB - timeA;
+      })
+      .map((dateStr) => ({
+        date: dateStr,
+        tasks: groups[dateStr].sort((a, b) => (b.completedAt || b.createdAt) - (a.completedAt || a.createdAt)),
+      }));
+  };
+
+  const handleClearArchive = () => {
+    if (window.confirm("Are you sure you want to permanently delete all completed tasks?")) {
+      completedTasks.forEach((task) => {
+        deleteTaskMutation.mutate(task.id);
+      });
+    }
+  };
 
   // Matrix configuration helper for UI rendering
   const quadrantsConfig: {
@@ -298,14 +348,26 @@ function MatrixAppContent() {
           <h1 className="app-logo">
             EISENHOWER MATRIX PRO
           </h1>
-          <button
-            type="button"
-            onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')}
-            className="theme-toggle-btn"
-            aria-label="Toggle theme"
-          >
-            {theme === 'light' ? <Moon className="w-4.5 h-4.5" /> : <Sun className="w-4.5 h-4.5" />}
-          </button>
+          <div className="header-actions">
+            <button
+              type="button"
+              onClick={() => setIsArchiveOpen(true)}
+              className="archive-toggle-btn"
+              title="Open Archive"
+              aria-label="Open Archive"
+            >
+              <Archive className="w-4.5 h-4.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')}
+              className="theme-toggle-btn"
+              title="Toggle theme"
+              aria-label="Toggle theme"
+            >
+              {theme === 'light' ? <Moon className="w-4.5 h-4.5" /> : <Sun className="w-4.5 h-4.5" />}
+            </button>
+          </div>
         </div>
 
         {/* Input form */}
@@ -449,6 +511,85 @@ function MatrixAppContent() {
               >
                 Delete
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Archive Modal */}
+      {isArchiveOpen && (
+        <div className="modal-overlay" onClick={() => setIsArchiveOpen(false)}>
+          <div className="archive-container" onClick={(e) => e.stopPropagation()}>
+            <div className="archive-header">
+              <div className="archive-header-left">
+                <Archive className="w-5 h-5 text-purple-400" />
+                <h3 className="archive-title">Archive</h3>
+                <span className="archive-count">{completedTasks.length} Completed</span>
+              </div>
+              <div className="archive-header-right">
+                {completedTasks.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleClearArchive}
+                    className="archive-clear-btn"
+                  >
+                    Clear All
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className="archive-close-btn"
+                  onClick={() => setIsArchiveOpen(false)}
+                  aria-label="Close Archive"
+                >
+                  <X className="w-4.5 h-4.5" />
+                </button>
+              </div>
+            </div>
+
+            <div className="archive-body">
+              {completedTasks.length === 0 ? (
+                <div className="archive-empty">
+                  <Archive className="archive-empty-icon" />
+                  <p>No completed tasks archived yet.</p>
+                  <span>Complete tasks on the board to see them here!</span>
+                </div>
+              ) : (
+                <div className="archive-list">
+                  {getGroupedCompletedTasks().map((group) => (
+                    <div key={group.date} className="archive-group">
+                      <div className="archive-group-date">{group.date}</div>
+                      <div className="archive-group-items">
+                        {group.tasks.map((task) => (
+                          <div key={task.id} className="archive-item">
+                            <span className="archive-item-text">{task.text}</span>
+                            <div className="archive-item-actions">
+                              <button
+                                type="button"
+                                onClick={() => updateTaskMutation.mutate({ id: task.id, completed: false })}
+                                className="archive-item-btn restore"
+                                title="Restore task to board"
+                                aria-label="Restore task"
+                              >
+                                <RotateCcw className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => deleteTaskMutation.mutate(task.id)}
+                                className="archive-item-btn delete"
+                                title="Delete task permanently"
+                                aria-label="Delete task permanently"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

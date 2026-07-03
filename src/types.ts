@@ -11,4 +11,5 @@ export interface Task {
   completed: boolean;
   quadrant: QuadrantType;
   createdAt: number;
+  completedAt?: number;
 }
