@@ -1,0 +1,17 @@
+# Eisenhower Matrix Pro
+
+> Eisenhower Matrix Pro (Ehmatrix) is a free, browser-based Eisenhower matrix to-do app at https://ehmatrix.codingmarvel.com/. You drag tasks from a Task Pool into four urgency and importance quadrants: Do (urgent and important), Schedule (important, not urgent), Delegate (urgent, not important) and Eliminate (neither). Tasks are saved in your browser's localStorage. There is no sign-up, account, backend or sync between devices.
+
+## Features
+
+- Quick-add bar with a Ctrl+K / Cmd+K shortcut
+- Drag and drop between the Task Pool and the four quadrants, with live task counts
+- Inline rename, complete with a confetti burst, delete with confirmation
+- Archive of completed tasks grouped by completion date, with restore and permanent delete
+- Dark theme by default with a light theme toggle
+
+## Links
+
+- [App](https://ehmatrix.codingmarvel.com/)
+- [Source code](https://github.com/kyameinsahilwho/ehmatrix)
+- [CodingMarvel](https://codingmarvel.com): more small, free tools
